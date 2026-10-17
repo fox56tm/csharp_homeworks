@@ -3,7 +3,7 @@ using TestApp.Attributes;
 public class TemplateTestClass
 {
     [OneTimeSetUp]
-    public void BeforeAll()
+    public static void BeforeAll()
     {
     }
 
@@ -12,8 +12,13 @@ public class TemplateTestClass
     {
     }
 
-    [Test(Expected = typeof(int), Ignore = "reason")]
+    [Test(Expected = typeof(InvalidOperationException))]
     public void SampleTest()
+    {
+    }
+
+    [Test(Ignore = "reason")]
+    public void SkippedTest()
     {
     }
 
@@ -23,7 +28,7 @@ public class TemplateTestClass
     }
 
     [OneTimeTearDown]
-    public void AfterAll()
+    public static void AfterAll()
     {
     }
 }

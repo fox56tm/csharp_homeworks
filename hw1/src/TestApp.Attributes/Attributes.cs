@@ -3,8 +3,8 @@
 [AttributeUsage(AttributeTargets.Method)]
 public class TestAttribute : Attribute
 {
-    public Type Expected { get; set; }
-    public string Ignore { get; set; }
+    public Type? Expected { get; set; }
+    public string? Ignore { get; set; }
 }
 [AttributeUsage(AttributeTargets.Method)] public class SetUpAttribute : Attribute { }
 [AttributeUsage(AttributeTargets.Method)] public class TearDownAttribute : Attribute { }
