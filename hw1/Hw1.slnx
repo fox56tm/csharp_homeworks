@@ -5,4 +5,7 @@
     <Project Path="src/TestApp.Core/TestApp.Core.csproj" />
     <Project Path="src\TestApp.Attributes\TestApp.Attributes.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TestApp.Tests/TestApp.Tests.csproj" />
+  </Folder>
 </Solution>
