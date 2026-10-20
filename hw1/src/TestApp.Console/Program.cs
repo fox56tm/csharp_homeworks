@@ -7,5 +7,14 @@ if (args.Length == 0)
     return;
 }
 
-Runner r = new Runner();
-r.RunTests(args[0]);
+try
+{
+    Parser parser = new Parser();
+    var addInTypes = parser.ParsePath(args[0]);
+    Runner runner = new Runner();
+    runner.RunTests(addInTypes);
+}
+catch (DirectoryNotFoundException ex)
+{
+    Console.WriteLine(ex.Message);
+}

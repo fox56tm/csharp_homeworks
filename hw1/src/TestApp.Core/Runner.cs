@@ -7,19 +7,9 @@ using System.Diagnostics;
 
 public class Runner
 {
-    public void RunTests(string path)
+    public void RunTests(IEnumerable<Type> addInTypes)
     {
-        var addInAssemblies = new List<Assembly>();
-        foreach (var dll in Directory.EnumerateFiles(path, "*.dll"))
-        {
-            addInAssemblies.Add(Assembly.LoadFrom(dll));
-
-        }
-        var addInTypes =
-            addInAssemblies
-                .SelectMany(a => a.ExportedTypes)
-                .Where(t => t.IsClass
-                            && !t.IsAbstract && t.GetMethods().Any(m => m.IsDefined(typeof(TestAttribute))));
+        Printer Ptests = new Printer();
         foreach (Type t in addInTypes)
         {
             var oneTimeSetUpmethods = t.GetMethods().Where(m => m.IsDefined(typeof(OneTimeSetUpAttribute)));
@@ -48,27 +38,12 @@ public class Runner
                 {
                     test.Invoke(instance, null);
                     sw.Stop();
-                    if (attribute?.Expected != null)
-                    {
-                        Console.WriteLine($"{t.Name}.{test.Name}: failed — expected {attribute.Expected.Name} ({sw.ElapsedMilliseconds} ms)");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{t.Name}.{test.Name}: passed ({sw.ElapsedMilliseconds} ms)");
-                    }
+                    Ptests.PrinTestsWhithoutExceptions(t, test, attribute, sw);
                 }
                 catch (TargetInvocationException ex)
                 {
                     sw.Stop();
-                    var inner = ex.InnerException;
-                    if (attribute?.Expected != null && inner != null && attribute.Expected.IsInstanceOfType(inner))
-                    {
-                        Console.WriteLine($"{t.Name}.{test.Name}: passed — {inner.Message} ({sw.ElapsedMilliseconds} ms)");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{t.Name}.{test.Name}: failed — {inner?.Message} ({sw.ElapsedMilliseconds} ms)");
-                    }
+                    Ptests.PrinTestsWithExceptions(t, test, attribute, sw, ex);
                 }
                 foreach (var teardown in tearDownMethods)
                 {
@@ -82,5 +57,4 @@ public class Runner
             }
         }
     }
-
 }

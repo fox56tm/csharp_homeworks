@@ -1,11 +1,27 @@
 using System.Reflection;
+using TestApp.Attributes;
 
-class Parser
+public class Parser
 {
-    public string ParsePath(string path)
+    public IEnumerable<Type> ParsePath(string path)
     {
-        string addInDir = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location)
-                          ?? throw new Exception("Unable to load assembly");
-        return addInDir;
+        if (!Directory.Exists(path))
+        {
+            throw new DirectoryNotFoundException($"Path not found {path}");
+        }
+
+        var addInAssemblies = new List<Assembly>();
+        foreach (var dll in Directory.EnumerateFiles(path, "*.dll"))
+        {
+            addInAssemblies.Add(Assembly.LoadFrom(dll));
+
+        }
+        var addInTypes =
+            addInAssemblies
+                .SelectMany(a => a.ExportedTypes)
+                .Where(t => t.IsClass
+
+                            && !t.IsAbstract && t.GetMethods().Any(m => m.IsDefined(typeof(TestAttribute))));
+        return addInTypes;
     }
 }
