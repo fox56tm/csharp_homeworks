@@ -7,9 +7,19 @@ using System.Diagnostics;
 
 public class Runner
 {
+    private readonly IPrinter _printer;
+
+    public Runner() : this(new ConsolePrinter())
+    {
+    }
+
+    public Runner(IPrinter printer)
+    {
+        _printer = printer;
+    }
+
     public void RunTests(IEnumerable<Type> addInTypes)
     {
-        Printer Ptests = new Printer();
         foreach (Type t in addInTypes)
         {
             var oneTimeSetUpmethods = t.GetMethods().Where(m => m.IsDefined(typeof(OneTimeSetUpAttribute)));
@@ -38,12 +48,12 @@ public class Runner
                 {
                     test.Invoke(instance, null);
                     sw.Stop();
-                    Ptests.PrinTestsWhithoutExceptions(t, test, attribute, sw);
+                    _printer.PrinTestsWhithoutExceptions(t, test, attribute, sw);
                 }
                 catch (TargetInvocationException ex)
                 {
                     sw.Stop();
-                    Ptests.PrinTestsWithExceptions(t, test, attribute, sw, ex);
+                    _printer.PrinTestsWithExceptions(t, test, attribute, sw, ex);
                 }
                 foreach (var teardown in tearDownMethods)
                 {
