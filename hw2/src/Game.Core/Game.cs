@@ -30,22 +30,22 @@ public class Game : IGameRunner
         _eventLoop.Run();
     }
 
-    public void OnLeft(object sender, EventArgs args)
+    public void OnLeft(object? sender, EventArgs args)
     {
         Move(-1, 0);
     }
 
-    public void OnRight(object sender, EventArgs args)
+    public void OnRight(object? sender, EventArgs args)
     {
         Move(1, 0);
     }
 
-    public void OnUp(object sender, EventArgs args)
+    public void OnUp(object? sender, EventArgs args)
     {
         Move(0, -1);
     }
 
-    public void OnDown(object sender, EventArgs args)
+    public void OnDown(object? sender, EventArgs args)
     {
         Move(0, 1);
     }
