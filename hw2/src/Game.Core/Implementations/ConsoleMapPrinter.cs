@@ -7,6 +7,7 @@ public class ConsoleMapPrinter : IMapPrinter
 
     public void DrawMap(Map map)
     {
+        Console.Clear();
         Console.WriteLine();
 
         for (int y = 0; y < map.Height; y++)
