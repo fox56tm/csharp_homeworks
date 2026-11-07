@@ -1,7 +1,7 @@
 using Xunit;
 using MyLinq.Core;
 using static MyLinq.Core.MyLinq;
-
+using static MyLinq.Core.MyLinqMapFilterFold;
 namespace MyLinq.Tests;
 
 public class FoldTests
