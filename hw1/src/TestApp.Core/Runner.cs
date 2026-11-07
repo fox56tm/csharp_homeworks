@@ -30,7 +30,6 @@ public class Runner
             var oneSetUpmethods = t.GetMethods().Where(m => m.IsDefined(typeof(SetUpAttribute)));
             var testsMethods = t.GetMethods().Where(m => m.IsDefined(typeof(TestAttribute)));
             var tearDownMethods = t.GetMethods().Where(m => m.IsDefined(typeof(TearDownAttribute)));
-            var instance = Activator.CreateInstance(t);
             foreach (var test in testsMethods)
             {
                 var attribute = test.GetCustomAttribute<TestAttribute>();
@@ -39,6 +38,7 @@ public class Runner
                     Console.WriteLine($"{t.Name}.{test.Name}: skipped ({attribute.Ignore})");
                     continue;
                 }
+                var instance = Activator.CreateInstance(t);
                 foreach (var setup in oneSetUpmethods)
                 {
                     setup.Invoke(instance, null);
