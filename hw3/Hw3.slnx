@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MyLinq.Console/MyLinq.Console.csproj" />
+    <Project Path="src/MyLinq.Core/MyLinq.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MyLinq.Tests/MyLinq.Tests.csproj" />
+  </Folder>
+</Solution>
