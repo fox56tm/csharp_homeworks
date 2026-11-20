@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Lazy.Core/Lazy.Core.csproj" />
+  <Project Path="Lazy.Tests/Lazy.Tests.csproj" />
+</Solution>
